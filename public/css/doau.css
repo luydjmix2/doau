@@ -1,0 +1,66 @@
+/* 
+*Hoja de estilos web doau 
+*en este lugar encontrara los estilos relacionados a la interface publica de doau
+*/
+
+.headerFindAddress {
+    height: 53vh;
+    background-image: url(/img/bg01.jpg);
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.findAddress {
+    padding: 22vh 0px;
+}
+
+.findAddressBg {
+    padding: 1vw 0px;
+    background: red;
+    border-radius: 5px;
+}
+
+.bt-center {
+    width: 90%;
+}
+
+main {
+    margin: 4vh 0px;
+}
+
+.img-w1-3 {
+    width: calc(87vw /2);
+}
+
+
+/* bloque de login */
+
+.registerHome {
+    width: 24vw;
+    margin: 0px auto;
+    position: relative;
+    background: #ffc107;
+}
+
+.registerHome>.card-title {
+    margin: 3vh 0px;
+}
+
+.text-color-white {
+    color: #ffffff !important;
+}
+
+.text-color-white a {
+    color: white;
+}
+
+.width-login {
+    width: 20vw;
+}
+
+.custum-jumbotron {
+    margin: 7vh 0px 0px 0px;
+    background: url(/img/bg01.jpg);
+    color: white;
+}
