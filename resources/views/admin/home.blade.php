@@ -6,7 +6,7 @@
 <div class="row">
   <div class="col-sm">
     <div class="card registerHome">
-    @guest
+      @guest
       <div class="card-title">
         <div class="text-center">
           <a href="#" class="btn btn-light btn-icon mr-4">
@@ -105,4 +105,7 @@
     <img src="/img/bg02.jpg" class="rounded float-right img-w1-3" alt="compartir">
   </div>
 </div>
+
+
+
 @endsection
