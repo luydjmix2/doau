@@ -4,6 +4,7 @@ namespace App\Http\Controllers\doau;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class adminHomeController extends Controller
 {
@@ -14,7 +15,11 @@ class adminHomeController extends Controller
      */
     public function index()
     {
-        return view('admin.home');
+        $user = Auth::user();
+        if(empty($user->name_one)){
+            return redirect('/completar-perfil');
+        }
+        return view('admin.home')->with('user', $user);
     }
 
     /**

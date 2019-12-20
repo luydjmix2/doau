@@ -64,3 +64,8 @@ main {
     background: url(/img/bg01.jpg);
     color: white;
 }
+
+.nav-complitPerfil {
+    background: red;
+    color: white;
+}

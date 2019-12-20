@@ -50,9 +50,7 @@
             </li>
             @else
 
-            @php
-            $user = Auth::user();
-            @endphp
+            
             @empty(!$user->perfil)
             @switch($user->perfil)
             @case(1)

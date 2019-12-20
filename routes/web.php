@@ -30,5 +30,6 @@ Route::get('/register',function(){
 
 Route::get('/home', 'doau\adminHomeController@index')->name('home')->middleware('auth');
 Route::get('/productos', 'doau\adminProductController@index')->name('productos')->middleware('auth');
+Route::get('/completar-perfil', 'doau\adminComplitPerfilController@index')->name('complitPerfil')->middleware('auth');
 Route::get('/productos/crear', 'doau\adminProductController@createProduct')->name('createProduct')->middleware('auth');
 // Route::get('/home', 'HomeController@index')->name('home');

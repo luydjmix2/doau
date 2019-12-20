@@ -4,6 +4,7 @@ namespace App\Http\Controllers\doau;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class adminComplitPerfilController extends Controller
 {
@@ -13,8 +14,9 @@ class adminComplitPerfilController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        
+    {   
+        $user = Auth::user();
+        return view('admin.complitPerfil')->with('user', $user);
     }
 
     /**

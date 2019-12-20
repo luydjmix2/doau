@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('movil')->nullable();
             $table->string('address')->nullable();
             $table->string('img')->nullable();
+            $table->string('city')->nullable();
             $table->string('perfil')->nullable();
             $table->string('autorizacion_manejo_de_datos')->nullable();
             $table->rememberToken();

@@ -106,6 +106,6 @@
   </div>
 </div>
 
-
+{{$user}}
 
 @endsection
