@@ -1,78 +1,276 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+Webmozart Assert
+================
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+[![Build Status](https://travis-ci.org/webmozart/assert.svg?branch=master)](https://travis-ci.org/webmozart/assert)
+[![Build status](https://ci.appveyor.com/api/projects/status/lyg83bcsisrr94se/branch/master?svg=true)](https://ci.appveyor.com/project/webmozart/assert/branch/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/webmozart/assert/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/webmozart/assert/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/webmozart/assert/v/stable.svg)](https://packagist.org/packages/webmozart/assert)
+[![Total Downloads](https://poser.pugx.org/webmozart/assert/downloads.svg)](https://packagist.org/packages/webmozart/assert)
 
-## About Laravel
+This library contains efficient assertions to test the input and output of
+your methods. With these assertions, you can greatly reduce the amount of coding
+needed to write a safe implementation.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+All assertions in the [`Assert`] class throw an `\InvalidArgumentException` if
+they fail.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+FAQ
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**What's the difference to [beberlei/assert]?**
 
-## Learning Laravel
+This library is heavily inspired by Benjamin Eberlei's wonderful [assert package],
+but fixes a usability issue with error messages that can't be fixed there without
+breaking backwards compatibility.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+This package features usable error messages by default. However, you can also
+easily write custom error messages:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+Assert::string($path, 'The path is expected to be a string. Got: %s');
+```
 
-## Laravel Sponsors
+In [beberlei/assert], the ordering of the `%s` placeholders is different for
+every assertion. This package, on the contrary, provides consistent placeholder
+ordering for all assertions:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+* `%s`: The tested value as string, e.g. `"/foo/bar"`.
+* `%2$s`, `%3$s`, ...: Additional assertion-specific values, e.g. the
+  minimum/maximum length, allowed values, etc.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+Check the source code of the assertions to find out details about the additional
+available placeholders.
 
-## Contributing
+Installation
+------------
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Use [Composer] to install the package:
 
-## Code of Conduct
+```
+$ composer require webmozart/assert
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Example
+-------
 
-## Security Vulnerabilities
+```php
+use Webmozart\Assert\Assert;
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+class Employee
+{
+    public function __construct($id)
+    {
+        Assert::integer($id, 'The employee ID must be an integer. Got: %s');
+        Assert::greaterThan($id, 0, 'The employee ID must be a positive integer. Got: %s');
+    }
+}
+```
 
-## License
+If you create an employee with an invalid ID, an exception is thrown:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```php
+new Employee('foobar');
+// => InvalidArgumentException:
+//    The employee ID must be an integer. Got: string
+
+new Employee(-10);
+// => InvalidArgumentException:
+//    The employee ID must be a positive integer. Got: -10
+```
+
+Assertions
+----------
+
+The [`Assert`] class provides the following assertions:
+
+### Type Assertions
+
+Method                                                   | Description
+-------------------------------------------------------- | --------------------------------------------------
+`string($value, $message = '')`                          | Check that a value is a string
+`stringNotEmpty($value, $message = '')`                  | Check that a value is a non-empty string
+`integer($value, $message = '')`                         | Check that a value is an integer
+`integerish($value, $message = '')`                      | Check that a value casts to an integer
+`float($value, $message = '')`                           | Check that a value is a float
+`numeric($value, $message = '')`                         | Check that a value is numeric
+`natural($value, $message= ''')`                         | Check that a value is a non-negative integer
+`boolean($value, $message = '')`                         | Check that a value is a boolean
+`scalar($value, $message = '')`                          | Check that a value is a scalar
+`object($value, $message = '')`                          | Check that a value is an object
+`resource($value, $type = null, $message = '')`          | Check that a value is a resource
+`isCallable($value, $message = '')`                      | Check that a value is a callable
+`isArray($value, $message = '')`                         | Check that a value is an array
+`isTraversable($value, $message = '')`  (deprecated)     | Check that a value is an array or a `\Traversable`
+`isIterable($value, $message = '')`                      | Check that a value is an array or a `\Traversable`
+`isCountable($value, $message = '')`                     | Check that a value is an array or a `\Countable`
+`isInstanceOf($value, $class, $message = '')`            | Check that a value is an `instanceof` a class
+`isInstanceOfAny($value, array $classes, $message = '')` | Check that a value is an `instanceof` a at least one class on the array of classes
+`notInstanceOf($value, $class, $message = '')`           | Check that a value is not an `instanceof` a class
+`isArrayAccessible($value, $message = '')`               | Check that a value can be accessed as an array
+`uniqueValues($values, $message = '')`                   | Check that the given array contains unique values
+
+### Comparison Assertions
+
+Method                                          | Description
+----------------------------------------------- | --------------------------------------------------
+`true($value, $message = '')`                   | Check that a value is `true`
+`false($value, $message = '')`                  | Check that a value is `false`
+`null($value, $message = '')`                   | Check that a value is `null`
+`notNull($value, $message = '')`                | Check that a value is not `null`
+`isEmpty($value, $message = '')`                | Check that a value is `empty()`
+`notEmpty($value, $message = '')`               | Check that a value is not `empty()`
+`eq($value, $value2, $message = '')`            | Check that a value equals another (`==`)
+`notEq($value, $value2, $message = '')`         | Check that a value does not equal another (`!=`)
+`same($value, $value2, $message = '')`          | Check that a value is identical to another (`===`)
+`notSame($value, $value2, $message = '')`       | Check that a value is not identical to another (`!==`)
+`greaterThan($value, $value2, $message = '')`   | Check that a value is greater than another
+`greaterThanEq($value, $value2, $message = '')` | Check that a value is greater than or equal to another
+`lessThan($value, $value2, $message = '')`      | Check that a value is less than another
+`lessThanEq($value, $value2, $message = '')`    | Check that a value is less than or equal to another
+`range($value, $min, $max, $message = '')`      | Check that a value is within a range
+`oneOf($value, array $values, $message = '')`   | Check that a value is one of a list of values
+
+### String Assertions
+
+You should check that a value is a string with `Assert::string()` before making
+any of the following assertions.
+
+Method                                              | Description
+--------------------------------------------------- | -----------------------------------------------------------------
+`contains($value, $subString, $message = '')`       | Check that a string contains a substring
+`notContains($value, $subString, $message = '')`    | Check that a string does not contains a substring
+`startsWith($value, $prefix, $message = '')`        | Check that a string has a prefix
+`startsWithLetter($value, $message = '')`           | Check that a string starts with a letter
+`endsWith($value, $suffix, $message = '')`          | Check that a string has a suffix
+`regex($value, $pattern, $message = '')`            | Check that a string matches a regular expression
+`notRegex($value, $pattern, $message = '')`         | Check that a string does not match a regular expression
+`unicodeLetters($value, $message = '')`             | Check that a string contains Unicode letters only
+`alpha($value, $message = '')`                      | Check that a string contains letters only
+`digits($value, $message = '')`                     | Check that a string contains digits only
+`alnum($value, $message = '')`                      | Check that a string contains letters and digits only
+`lower($value, $message = '')`                      | Check that a string contains lowercase characters only
+`upper($value, $message = '')`                      | Check that a string contains uppercase characters only
+`length($value, $length, $message = '')`            | Check that a string has a certain number of characters
+`minLength($value, $min, $message = '')`            | Check that a string has at least a certain number of characters
+`maxLength($value, $max, $message = '')`            | Check that a string has at most a certain number of characters
+`lengthBetween($value, $min, $max, $message = '')`  | Check that a string has a length in the given range
+`uuid($value, $message = '')`                       | Check that a string is a valid UUID
+`ip($value, $message = '')`                         | Check that a string is a valid IP (either IPv4 or IPv6)
+`ipv4($value, $message = '')`                       | Check that a string is a valid IPv4
+`ipv6($value, $message = '')`                       | Check that a string is a valid IPv6
+`email($value, $message = '')`                      | Check that a string is a valid e-mail address
+`notWhitespaceOnly($value, $message = '')`          | Check that a string contains at least one non-whitespace character
+
+### File Assertions
+
+Method                              | Description
+----------------------------------- | --------------------------------------------------
+`fileExists($value, $message = '')` | Check that a value is an existing path
+`file($value, $message = '')`       | Check that a value is an existing file
+`directory($value, $message = '')`  | Check that a value is an existing directory
+`readable($value, $message = '')`   | Check that a value is a readable path
+`writable($value, $message = '')`   | Check that a value is a writable path
+
+### Object Assertions
+
+Method                                                | Description
+----------------------------------------------------- | --------------------------------------------------
+`classExists($value, $message = '')`                  | Check that a value is an existing class name
+`subclassOf($value, $class, $message = '')`           | Check that a class is a subclass of another
+`interfaceExists($value, $message = '')`              | Check that a value is an existing interface name
+`implementsInterface($value, $class, $message = '')`  | Check that a class implements an interface
+`propertyExists($value, $property, $message = '')`    | Check that a property exists in a class/object
+`propertyNotExists($value, $property, $message = '')` | Check that a property does not exist in a class/object
+`methodExists($value, $method, $message = '')`        | Check that a method exists in a class/object
+`methodNotExists($value, $method, $message = '')`     | Check that a method does not exist in a class/object
+
+### Array Assertions
+
+Method                                             | Description
+-------------------------------------------------- | ------------------------------------------------------------------
+`keyExists($array, $key, $message = '')`           | Check that a key exists in an array
+`keyNotExists($array, $key, $message = '')`        | Check that a key does not exist in an array
+`validArrayKey($key, $message = '')`               | Check that a value is a valid array key (int or string)
+`count($array, $number, $message = '')`            | Check that an array contains a specific number of elements
+`minCount($array, $min, $message = '')`            | Check that an array contains at least a certain number of elements
+`maxCount($array, $max, $message = '')`            | Check that an array contains at most a certain number of elements
+`countBetween($array, $min, $max, $message = '')`  | Check that an array has a count in the given range
+`isList($array, $message = '')`                    | Check that an array is a non-associative list
+`isNonEmptyList($array, $message = '')`            | Check that an array is a non-associative list, and not empty
+`isMap($array, $message = '')`                     | Check that an array is associative and has strings as keys
+`isNonEmptyMap($array, $message = '')`             | Check that an array is associative and has strings as keys, and is not empty
+
+### Function Assertions
+
+Method                                      | Description
+------------------------------------------- | -----------------------------------------------------------------------------------------------------
+`throws($closure, $class, $message = '')`   | Check that a function throws a certain exception. Subclasses of the exception class will be accepted.
+
+### Collection Assertions
+
+All of the above assertions can be prefixed with `all*()` to test the contents
+of an array or a `\Traversable`:
+
+```php
+Assert::allIsInstanceOf($employees, 'Acme\Employee');
+```
+
+### Nullable Assertions
+
+All of the above assertions can be prefixed with `nullOr*()` to run the
+assertion only if it the value is not `null`:
+
+```php
+Assert::nullOrString($middleName, 'The middle name must be a string or null. Got: %s');
+```
+
+### Extending Assert
+
+The `Assert` class comes with a few methods, which can be overridden to change the class behaviour. You can also extend it to
+add your own assertions.
+
+#### Overriding methods
+
+Overriding the following methods in your assertion class allows you to change the behaviour of the assertions:
+
+* `public static function __callStatic($name, $arguments)`
+  * This method is used to 'create' the `nullOr` and `all` versions of the assertions.
+* `protected static function valueToString($value)`
+  * This method is used for error messages, to convert the value to a string value for displaying. You could use this for representing a value object with a `__toString` method for example.
+* `protected static function typeToString($value)`
+  * This method is used for error messages, to convert the a value to a string representing its type.
+* `protected static function strlen($value)`
+  * This method is used to calculate string lenght for relevant methods, using the `mb_strlen` if available and usefull.
+* `protected static function reportInvalidArgument($message)`
+  * This method is called when an assertion fails, with the specified error message. Here you can throw your own exception, or log something.
+
+
+Authors
+-------
+
+* [Bernhard Schussek] a.k.a. [@webmozart]
+* [The Community Contributors]
+
+Contribute
+----------
+
+Contributions to the package are always welcome!
+
+* Report any bugs or issues you find on the [issue tracker].
+* You can grab the source code at the package's [Git repository].
+
+License
+-------
+
+All contents of this package are licensed under the [MIT license].
+
+[beberlei/assert]: https://github.com/beberlei/assert
+[assert package]: https://github.com/beberlei/assert
+[Composer]: https://getcomposer.org
+[Bernhard Schussek]: http://webmozarts.com
+[The Community Contributors]: https://github.com/webmozart/assert/graphs/contributors
+[issue tracker]: https://github.com/webmozart/assert/issues
+[Git repository]: https://github.com/webmozart/assert
+[@webmozart]: https://twitter.com/webmozart
+[MIT license]: LICENSE
+[`Assert`]: src/Assert.php
