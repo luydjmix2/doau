@@ -20,11 +20,11 @@ Route::get('/', 'doau\publicController@index')->name('index');
 // Route::get('/register', 'doau\publicController@register')->name('index');
 
 Auth::routes();
-Route::get('/login',function(){
+Route::get('/login', function () {
         return redirect('/');
 })->name('login');
 
-Route::get('/register',function(){
+Route::get('/register', function () {
         return redirect('/');
 })->name('register');
 
